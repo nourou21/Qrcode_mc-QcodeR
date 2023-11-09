@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:qrcodemc/Generate.dart';
 import 'package:qrcodemc/aboutus.dart';
 import 'package:qrcodemc/scan.dart';
+import 'package:qrcodemc/settings/ThemeProvider.dart';
 import 'package:qrcodemc/settings/themeblack.dart';
 
 class second extends StatefulWidget {
@@ -16,6 +18,8 @@ class _secondState extends State<second> {
   bool _switchValue = false;
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return WillPopScope(
         onWillPop: () async {
           // Handle back button press here
@@ -26,7 +30,7 @@ class _secondState extends State<second> {
         },
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: Colors.grey.shade900,
+            backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
             body: SingleChildScrollView(
               child: SafeArea(
                 child: Column(children: [

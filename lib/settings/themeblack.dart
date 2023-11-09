@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcodemc/settings/ThemeProvider.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key});
@@ -12,8 +14,10 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
-      backgroundColor: _switchValue ? Colors.white : Colors.grey.shade900,
+      backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -50,22 +54,22 @@ class _SettingsState extends State<Settings> {
                   SizedBox(
                     height: 90,
                   ),
-                  _switchValue
+                  isDarkMode
                       ? Image(
-                          image: AssetImage('assets/Sun.png'),
+                          image: AssetImage('assets/moon.png'),
                           height: 160,
                         )
                       : Image(
-                          image: AssetImage('assets/moon.png'),
+                          image: AssetImage('assets/Sun.png'),
                           height: 160,
                         ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
-                    _switchValue ? 'Light mode' : 'Dark mode',
+                    !isDarkMode ? 'Light mode' : 'Dark mode',
                     style: TextStyle(
-                      color: _switchValue ? Colors.black : Colors.white,
+                      color: isDarkMode ? Colors.black : Colors.black,
                       fontSize: 22,
                     ),
                   ),
@@ -73,19 +77,17 @@ class _SettingsState extends State<Settings> {
                     height: 140,
                   ),
                   Transform.scale(
-                    scale: 4,
-                    child: Switch(
-                      value: _switchValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _switchValue = value;
-                        });
-                      },
-                      activeColor: Colors.blue,
-                      inactiveThumbColor: Colors.grey,
-                      inactiveTrackColor: Colors.grey.shade600,
-                    ),
-                  )
+                      scale: 4,
+                      child: Switch(
+                        value: isDarkMode,
+                        onChanged: (value) {
+                          Provider.of<ThemeProvider>(context, listen: false)
+                              .toggleTheme();
+                        },
+                        activeColor: Colors.blue,
+                        inactiveThumbColor: Colors.grey,
+                        inactiveTrackColor: Colors.grey.shade600,
+                      ))
                 ],
               ),
             ],
