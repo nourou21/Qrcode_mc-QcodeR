@@ -13,7 +13,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: _switchValue ? Colors.white : Colors.grey.shade900,
       body: SafeArea(
         child: Center(
           child: Column(
