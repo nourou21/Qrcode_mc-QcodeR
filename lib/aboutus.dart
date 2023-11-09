@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcodemc/settings/ThemeProvider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class about extends StatefulWidget {
   const about({super.key});
@@ -104,21 +105,23 @@ class _aboutState extends State<about> {
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.linkedin),
                               onPressed: () {
-                                // Handle LinkedIn button click
+                                _launchURL(
+                                    'https://www.linkedin.com/in/abdenour-ouhba-630944224/');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: Icon(Icons.facebook),
                               onPressed: () {
-                                // Handle Facebook button click
+                                _launchURL(
+                                    'https://www.facebook.com/profile.php?id=100095311006804');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.envelope),
                               onPressed: () {
-                                // Handle Instagram button click
+                                _launchURL('mailto:qabdenourouhba@gmail.com');
                               },
                               color: Colors.pink,
                             ),
@@ -358,5 +361,13 @@ class _aboutState extends State<about> {
         ),
       ),
     );
+  }
+}
+
+Future<void> _launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
