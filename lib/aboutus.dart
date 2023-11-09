@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcodemc/settings/ThemeProvider.dart';
 
 class about extends StatefulWidget {
   const about({super.key});
@@ -12,8 +14,9 @@ class about extends StatefulWidget {
 class _aboutState extends State<about> {
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [

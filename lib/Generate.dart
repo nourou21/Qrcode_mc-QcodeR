@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qrcodemc/settings/ThemeProvider.dart';
 
 //ctrl+shif+p(add depand)
 class Generate extends StatefulWidget {
@@ -15,8 +17,9 @@ class _GenerateState extends State<Generate> {
   bool _switchValue = false;
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(

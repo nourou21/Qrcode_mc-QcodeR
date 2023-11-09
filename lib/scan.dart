@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcodemc/settings/ThemeProvider.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:permission_handler/permission_handler.dart';
 
@@ -34,8 +36,9 @@ class _ScanState extends State<Scan> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
       body: SafeArea(
         child: Column(
           children: [
