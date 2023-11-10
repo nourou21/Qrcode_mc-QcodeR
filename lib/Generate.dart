@@ -1,11 +1,14 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:QcodeR/settings/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:screenshot/screenshot.dart';
 
-
-//ctrl+shif+p(add depand)
 class Generate extends StatefulWidget {
   const Generate({Key? key}) : super(key: key);
 
@@ -16,6 +19,37 @@ class Generate extends StatefulWidget {
 class _GenerateState extends State<Generate> {
   TextEditingController controller = TextEditingController();
   bool _switchValue = false;
+  late ScreenshotController screenshotController;
+
+  @override
+  void initState() {
+    super.initState();
+    screenshotController = ScreenshotController();
+  }
+
+  Future<void> _saveQrCode() async {
+    final status = await Permission.storage.request();
+    if (status == PermissionStatus.granted) {
+      Uint8List? bytes = await screenshotController.capture();
+      if (bytes != null) {
+        final directory = (await getExternalStorageDirectory())!.path;
+        final imagePath = '$directory/qrcode_image.png';
+        File(imagePath).writeAsBytesSync(bytes);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('QR Code saved to $imagePath'),
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Failed to capture QR Code'),
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Storage permission denied'),
+      ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
@@ -91,15 +125,9 @@ class _GenerateState extends State<Generate> {
                       Center(
                         child: Stack(
                           children: [
-                            // Load the background image from the assets
-
-                            // Position the QR code image on top of the background image
                             Positioned(
                               top: 12,
-                              // Adjust the position as needed
                               left: 10,
-
-                              // Adjust the position as needed
                               child: QrImageView(
                                 data: controller.text,
                                 version: QrVersions.auto,
@@ -134,8 +162,35 @@ class _GenerateState extends State<Generate> {
                         onPressed: () {
                           setState(() {});
                         },
-                        child: Text("Generate QR Code",
-                            style: TextStyle(color: Colors.black87)),
+                        child: Text(
+                          "Generate QR Code",
+                          style: TextStyle(color: Colors.black87),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Color(0xFF5CA6B0)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            // Call the method to save the QR code image
+                            _saveQrCode();
+                          });
+                        },
+                        child: Text(
+                          "Save QR Code Image",
+                          style: TextStyle(color: Colors.black87),
+                        ),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Color(0xFF5CA6B0)),

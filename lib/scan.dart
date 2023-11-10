@@ -52,7 +52,7 @@ class _ScanState extends State<Scan> {
     bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
-      body: SafeArea(
+      body: SingleChildScrollView(child: SafeArea(
         child: Column(
           children: [
             Center(
@@ -149,6 +149,7 @@ class _ScanState extends State<Scan> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
