@@ -1,7 +1,7 @@
+import 'package:QcodeR/sliders/firstslider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:qrcodemc/sliders/firstslider.dart';
 
 class splash extends StatefulWidget {
   const splash({super.key});

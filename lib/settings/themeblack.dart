@@ -1,6 +1,6 @@
+import 'package:QcodeR/settings/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qrcodemc/settings/ThemeProvider.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key});

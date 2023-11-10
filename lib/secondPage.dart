@@ -1,11 +1,12 @@
+import 'package:QcodeR/Generate.dart';
+import 'package:QcodeR/aboutus.dart';
+import 'package:QcodeR/scan.dart';
+import 'package:QcodeR/settings/ThemeProvider.dart';
+import 'package:QcodeR/settings/themeblack.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:qrcodemc/Generate.dart';
-import 'package:qrcodemc/aboutus.dart';
-import 'package:qrcodemc/scan.dart';
-import 'package:qrcodemc/settings/ThemeProvider.dart';
-import 'package:qrcodemc/settings/themeblack.dart';
+
 
 class second extends StatefulWidget {
   const second({super.key});

@@ -1,7 +1,8 @@
+import 'package:QcodeR/sliders/secondslider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:qrcodemc/sliders/secondslider.dart';
+
 
 class fisrtsld extends StatefulWidget {
   const fisrtsld({super.key});

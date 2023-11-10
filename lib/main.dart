@@ -1,7 +1,8 @@
+import 'package:QcodeR/settings/ThemeProvider.dart';
+import 'package:QcodeR/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qrcodemc/settings/ThemeProvider.dart';
-import 'package:qrcodemc/splash/splash.dart';
+
 
 void main() {
   runApp(

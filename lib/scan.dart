@@ -1,7 +1,8 @@
+import 'package:QcodeR/settings/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:qrcodemc/settings/ThemeProvider.dart';
+
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:permission_handler/permission_handler.dart';
 
