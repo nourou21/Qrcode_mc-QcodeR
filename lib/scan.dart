@@ -1,10 +1,11 @@
-import 'package:QcodeR/settings/ThemeProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:permission_handler/permission_handler.dart';
+
+import 'settings/ThemeProvider.dart';
 
 class Scan extends StatefulWidget {
   const Scan({Key? key});
@@ -35,6 +36,17 @@ class _ScanState extends State<Scan> {
     }
   }
 
+  void _copyToClipboard() {
+    if (qrData != null && qrData!.isNotEmpty) {
+      Clipboard.setData(ClipboardData(text: qrData!));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Copied to clipboard'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
@@ -61,9 +73,8 @@ class _ScanState extends State<Scan> {
                               icon: Icon(
                                 Icons.arrow_back,
                                 size: 30,
-                              ), // Use the back/return icon
+                              ),
                               onPressed: () {
-                                // Navigate back to the previous screen
                                 Navigator.of(context).pop();
                               },
                               color: Colors.grey,
@@ -79,9 +90,10 @@ class _ScanState extends State<Scan> {
                           Text(
                             "Scan QR Code",
                             style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF5CA6B0)),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF5CA6B0),
+                            ),
                           ),
                         ],
                       ),
@@ -126,11 +138,13 @@ class _ScanState extends State<Scan> {
             SizedBox(
               height: 20,
             ),
-            Center(
-              child: Text(
-                qrData ??
-                    "", // Display the scanned data or an empty string if no data is scanned
-                style: TextStyle(fontSize: 18, color: Colors.white),
+            GestureDetector(
+              onLongPress: _copyToClipboard,
+              child: Center(
+                child: Text(
+                  qrData ?? "",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
               ),
             ),
           ],
