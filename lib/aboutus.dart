@@ -16,6 +16,8 @@ class _aboutState extends State<about> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+    Color? cardColor = isDarkMode ? Colors.grey.shade800 : Colors.grey[300];
+
     return Scaffold(
       backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
       body: SingleChildScrollView(
@@ -30,10 +32,8 @@ class _aboutState extends State<about> {
                   width: 15,
                 ),
                 IconButton(
-                  icon:
-                      const Icon(Icons.arrow_back), // Use the back/return icon
+                  icon: const Icon(Icons.arrow_back),
                   onPressed: () {
-                    // Navigate back to the previous screen
                     Navigator.of(context).pop();
                   },
                   color: Colors.grey,
@@ -41,9 +41,10 @@ class _aboutState extends State<about> {
                 Text(
                   "About Us",
                   style: GoogleFonts.inter(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF5CA6B0)),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF5CA6B0),
+                  ),
                 ),
               ],
             ),
@@ -53,9 +54,10 @@ class _aboutState extends State<about> {
             Text(
               "QcodeR",
               style: GoogleFonts.inter(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF5CA6B0)),
+                fontSize: 40,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF5CA6B0),
+              ),
             ),
             SizedBox(
               height: 12,
@@ -66,21 +68,22 @@ class _aboutState extends State<about> {
                   width: 40,
                 ),
                 Center(
-                    child: Text(
-                  "OUR TEAM :",
-                  style: GoogleFonts.inter(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                  child: Text(
+                    "OUR TEAM :",
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.blueGrey,
+                    ),
                   ),
-                )),
+                ),
               ],
             ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
-                  color: Colors.grey.shade800,
+                  color: cardColor,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -94,9 +97,10 @@ class _aboutState extends State<about> {
                         Text(
                           'OUHBA Abdenour',
                           style: GoogleFonts.inter(
-                              fontSize: 27,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF5CA6B0)),
+                            fontSize: 27,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF5CA6B0),
+                          ),
                         ),
                         SizedBox(height: 20),
                         Row(
@@ -137,7 +141,7 @@ class _aboutState extends State<about> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
-                  color: Colors.grey.shade800,
+                  color: cardColor,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -145,16 +149,15 @@ class _aboutState extends State<about> {
                       children: [
                         CircleAvatar(
                           radius: 60,
-                          backgroundImage:
-                              AssetImage('assets/team_member_photo.jpg'),
                         ),
                         SizedBox(height: 20),
                         Text(
-                          'Slimane ',
+                          'Slimane',
                           style: GoogleFonts.inter(
-                              fontSize: 27,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF5CA6B0)),
+                            fontSize: 27,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF5CA6B0),
+                          ),
                         ),
                         SizedBox(height: 20),
                         Row(
@@ -163,21 +166,23 @@ class _aboutState extends State<about> {
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.linkedin),
                               onPressed: () {
-                                // Handle LinkedIn button click
+                                _launchURL(
+                                    'https://www.linkedin.com/in/abdenour-ouhba-630944224/');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: Icon(Icons.facebook),
                               onPressed: () {
-                                // Handle Facebook button click
+                                _launchURL(
+                                    'https://www.facebook.com/profile.php?id=100095311006804');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.envelope),
                               onPressed: () {
-                                // Handle Instagram button click
+                                _launchURL('mailto:qabdenourouhba@gmail.com');
                               },
                               color: Colors.pink,
                             ),
@@ -193,7 +198,7 @@ class _aboutState extends State<about> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
-                  color: Colors.grey.shade800,
+                  color: cardColor,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -201,16 +206,15 @@ class _aboutState extends State<about> {
                       children: [
                         CircleAvatar(
                           radius: 60,
-                          backgroundImage:
-                              AssetImage('assets/team_member_photo.jpg'),
                         ),
                         SizedBox(height: 20),
                         Text(
                           'Amine',
                           style: GoogleFonts.inter(
-                              fontSize: 27,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF5CA6B0)),
+                            fontSize: 27,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF5CA6B0),
+                          ),
                         ),
                         SizedBox(height: 20),
                         Row(
@@ -219,21 +223,23 @@ class _aboutState extends State<about> {
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.linkedin),
                               onPressed: () {
-                                // Handle LinkedIn button click
+                                _launchURL(
+                                    'https://www.linkedin.com/in/abdenour-ouhba-630944224/');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: Icon(Icons.facebook),
                               onPressed: () {
-                                // Handle Facebook button click
+                                _launchURL(
+                                    'https://www.facebook.com/profile.php?id=100095311006804');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.envelope),
                               onPressed: () {
-                                // Handle Instagram button click
+                                _launchURL('mailto:qabdenourouhba@gmail.com');
                               },
                               color: Colors.pink,
                             ),
@@ -249,7 +255,7 @@ class _aboutState extends State<about> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
-                  color: Colors.grey.shade800,
+                  color: cardColor,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -257,16 +263,15 @@ class _aboutState extends State<about> {
                       children: [
                         CircleAvatar(
                           radius: 60,
-                          backgroundImage:
-                              AssetImage('assets/team_member_photo.jpg'),
                         ),
                         SizedBox(height: 20),
                         Text(
                           'SIFOUANE Lyna Basma',
                           style: GoogleFonts.inter(
-                              fontSize: 27,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF5CA6B0)),
+                            fontSize: 27,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF5CA6B0),
+                          ),
                         ),
                         SizedBox(height: 20),
                         Row(
@@ -275,21 +280,23 @@ class _aboutState extends State<about> {
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.linkedin),
                               onPressed: () {
-                                // Handle LinkedIn button click
+                                _launchURL(
+                                    'https://www.linkedin.com/in/abdenour-ouhba-630944224/');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: Icon(Icons.facebook),
                               onPressed: () {
-                                // Handle Facebook button click
+                                _launchURL(
+                                    'https://www.facebook.com/profile.php?id=100095311006804');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.envelope),
                               onPressed: () {
-                                // Handle Instagram button click
+                                _launchURL('mailto:qabdenourouhba@gmail.com');
                               },
                               color: Colors.pink,
                             ),
@@ -305,7 +312,7 @@ class _aboutState extends State<about> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
-                  color: Colors.grey.shade800,
+                  color: cardColor,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -313,16 +320,15 @@ class _aboutState extends State<about> {
                       children: [
                         CircleAvatar(
                           radius: 60,
-                          backgroundImage:
-                              AssetImage('assets/team_member_photo.jpg'),
                         ),
                         SizedBox(height: 20),
                         Text(
                           'IGHILAHRIZ Rym Yasmine',
                           style: GoogleFonts.inter(
-                              fontSize: 27,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF5CA6B0)),
+                            fontSize: 23,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF5CA6B0),
+                          ),
                         ),
                         SizedBox(height: 20),
                         Row(
@@ -331,21 +337,23 @@ class _aboutState extends State<about> {
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.linkedin),
                               onPressed: () {
-                                // Handle LinkedIn button click
+                                _launchURL(
+                                    'https://www.linkedin.com/in/abdenour-ouhba-630944224/');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: Icon(Icons.facebook),
                               onPressed: () {
-                                // Handle Facebook button click
+                                _launchURL(
+                                    'https://www.facebook.com/profile.php?id=100095311006804');
                               },
                               color: Colors.blue,
                             ),
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.envelope),
                               onPressed: () {
-                                // Handle Instagram button click
+                                _launchURL('mailto:qabdenourouhba@gmail.com');
                               },
                               color: Colors.pink,
                             ),
