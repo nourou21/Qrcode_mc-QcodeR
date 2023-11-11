@@ -67,7 +67,7 @@ class _GenerateState extends State<Generate> {
                   Column(
                     children: [
                       SizedBox(
-                        height: 30,
+                        height: 23,
                       ),
                       SizedBox(
                         child: IconButton(
@@ -90,7 +90,7 @@ class _GenerateState extends State<Generate> {
                   Column(
                     children: [
                       SizedBox(
-                        height: 30,
+                        height: 23,
                       ),
                       Text(
                         "Generate QR Code",

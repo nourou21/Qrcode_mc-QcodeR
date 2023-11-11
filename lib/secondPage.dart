@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-
 class second extends StatefulWidget {
   const second({super.key});
 
@@ -152,7 +151,7 @@ class _secondState extends State<second> {
                 Row(
                   children: [
                     SizedBox(
-                      width: 230,
+                      width: 200,
                     ),
                     ElevatedButton(
                       onPressed: () {

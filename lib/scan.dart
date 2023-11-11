@@ -52,104 +52,105 @@ class _ScanState extends State<Scan> {
     bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
-      body: SingleChildScrollView(child: SafeArea(
-        child: Column(
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 30,
-                          ),
-                          SizedBox(
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back,
-                                size: 30,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            children: [
+              Center(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 17,
+                        ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 23,
+                            ),
+                            SizedBox(
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                color: Colors.grey,
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              color: Colors.grey,
                             ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Text(
-                            "Scan QR Code",
-                            style: GoogleFonts.inter(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF5CA6B0),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 23,
                             ),
-                          ),
-                        ],
+                            Text(
+                              "Scan QR Code",
+                              style: GoogleFonts.inter(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF5CA6B0),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                height: 202,
+              ),
+              Center(
+                child: Image(
+                  image: AssetImage('assets/Generate.png'),
+                  height: 200,
+                ),
+              ),
+              SizedBox(
+                height: 130,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    _qrscanner();
+                  },
+                  child: Text("Scan for QR Code",
+                      style: TextStyle(color: Colors.black87)),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xFF5CA6B0)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
                       ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            SizedBox(
-              height: 202,
-            ),
-            Center(
-              child: Image(
-                image: AssetImage('assets/Generate.png'),
-                height: 200,
-              ),
-            ),
-            SizedBox(
-              height: 130,
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  _qrscanner();
-                },
-                child: Text("Scan for QR Code",
-                    style: TextStyle(color: Colors.black87)),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xFF5CA6B0)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-              onLongPress: _copyToClipboard,
-              child: Center(
-                child: Text(
-                  qrData ?? "",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onLongPress: _copyToClipboard,
+                child: Center(
+                  child: Text(
+                    qrData ?? "",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
