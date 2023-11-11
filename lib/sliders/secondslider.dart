@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
 class secondslid extends StatefulWidget {
   const secondslid({super.key});
 
@@ -85,7 +83,7 @@ class _secondslidState extends State<secondslid> {
                     Row(
                       children: [
                         SizedBox(
-                          width: 180,
+                          width: 170,
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -104,7 +102,7 @@ class _secondslidState extends State<secondslid> {
                               ), // Icon (in this case, a plus icon)
                               SizedBox(
                                   width:
-                                      8), // Horizontal spacing between icon and text
+                                      2), // Horizontal spacing between icon and text
                               Text('Next'), // Text displayed next to the icon
                             ],
                           ),

@@ -90,7 +90,7 @@ class _thirdslideState extends State<thirdslide> {
                     Row(
                       children: [
                         SizedBox(
-                          width: 150,
+                          width: 120,
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -109,7 +109,7 @@ class _thirdslideState extends State<thirdslide> {
                                       8), // Horizontal spacing between icon and text
                               Text('Let`s start'),
                               SizedBox(
-                                width: 10,
+                                width: 4,
                               ),
                               Icon(
                                 Icons.arrow_forward_ios_outlined,

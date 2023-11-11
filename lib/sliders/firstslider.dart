@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class fisrtsld extends StatefulWidget {
   const fisrtsld({super.key});
 
@@ -67,7 +66,7 @@ class _fisrtsldState extends State<fisrtsld> {
                 Row(
                   children: [
                     SizedBox(
-                      width: 170,
+                      width: 150,
                     ),
                     IconButton(
                       icon: Icon(
