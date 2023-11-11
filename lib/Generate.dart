@@ -30,7 +30,10 @@ class _GenerateState extends State<Generate> {
   Future<void> _saveQrCode() async {
     final status = await Permission.storage.request();
     if (status == PermissionStatus.granted) {
-      Uint8List? bytes = await screenshotController.capture();
+      Uint8List? bytes = await screenshotController.capture(
+        pixelRatio: 3.0, // You can adjust the pixel ratio based on your needs
+      );
+
       if (bytes != null) {
         final directory = (await getExternalStorageDirectory())!.path;
         final imagePath = '$directory/qrcode_image.png';
@@ -74,9 +77,8 @@ class _GenerateState extends State<Generate> {
                           icon: Icon(
                             Icons.arrow_back,
                             size: 30,
-                          ), // Use the back/return icon
+                          ),
                           onPressed: () {
-                            // Navigate back to the previous screen
                             Navigator.of(context).pop();
                           },
                           color: Colors.grey,
@@ -90,7 +92,7 @@ class _GenerateState extends State<Generate> {
                   Column(
                     children: [
                       SizedBox(
-                        height: 23,
+                        height: 30,
                       ),
                       Text(
                         "Generate QR Code",
@@ -114,8 +116,7 @@ class _GenerateState extends State<Generate> {
                 height: 500,
                 child: Container(
                   padding: EdgeInsets.all(20),
-                  color: const Color(
-                      0xFF1C1C1C), // Set the background color of the blue box
+                  color: const Color(0xFF1C1C1C),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -183,7 +184,6 @@ class _GenerateState extends State<Generate> {
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            // Call the method to save the QR code image
                             _saveQrCode();
                           });
                         },
