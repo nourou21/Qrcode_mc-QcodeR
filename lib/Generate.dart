@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:QcodeR/settings/ThemeProvider.dart';
+import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/rendering.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'dart:ui' as ui;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 
 class Generate extends StatefulWidget {
@@ -18,12 +20,13 @@ class Generate extends StatefulWidget {
 
 class _GenerateState extends State<Generate> {
   TextEditingController controller = TextEditingController();
-  bool _switchValue = false;
+  late GlobalKey globalKey;
   late ScreenshotController screenshotController;
 
   @override
   void initState() {
     super.initState();
+    globalKey = GlobalKey();
     screenshotController = ScreenshotController();
   }
 
@@ -31,7 +34,7 @@ class _GenerateState extends State<Generate> {
     final status = await Permission.storage.request();
     if (status == PermissionStatus.granted) {
       Uint8List? bytes = await screenshotController.capture(
-        pixelRatio: 3.0, // You can adjust the pixel ratio based on your needs
+        pixelRatio: 3.0,
       );
 
       if (bytes != null) {
@@ -53,6 +56,18 @@ class _GenerateState extends State<Generate> {
     }
   }
 
+  Future<void> converQrCodeToImage() async {
+    RenderRepaintBoundary boundary =
+        globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    ui.Image image = await boundary.toImage();
+    final directory = (await getApplicationDocumentsDirectory()).path;
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
+    File imgFile = File("$directory/qrCode.png");
+    await imgFile.writeAsBytes(pngBytes);
+    await Share.shareFiles([imgFile.path], text: "Your text share");
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
@@ -61,152 +76,154 @@ class _GenerateState extends State<Generate> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
-            child: Column(children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 23,
-                      ),
-                      SizedBox(
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.arrow_back,
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          color: Colors.grey,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 23,
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        "Generate QR Code",
-                        style: GoogleFonts.inter(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF5CA6B0)),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              SizedBox(
-                width: 300,
-                height: 500,
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  color: const Color(0xFF1C1C1C),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 12,
-                              left: 10,
-                              child: QrImageView(
-                                data: controller.text,
-                                version: QrVersions.auto,
-                                size: 180,
-                                backgroundColor: Colors.white,
+                        SizedBox(
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          "Generate QR Code",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF5CA6B0)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                SizedBox(
+                  width: 300,
+                  height: 500,
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    color: const Color(0xFF1C1C1C),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Center(
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 12,
+                                left: 10,
+                                child: QrImageView(
+                                  data: controller.text,
+                                  version: QrVersions.auto,
+                                  size: 180,
+                                  backgroundColor: Colors.white,
+                                ),
+                              ),
+                              Image.asset(
+                                'assets/Generate.png',
+                                height: 200,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                          controller: controller,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter data',
+                            hintStyle: TextStyle(color: Colors.white),
+                          ),
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.start,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {});
+                          },
+                          child: Text(
+                            "Generate QR Code",
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(0xFF5CA6B0)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
                               ),
                             ),
-                            Image.asset(
-                              'assets/Generate.png',
-                              height: 200,
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                        controller: controller,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter data',
-                          hintStyle: TextStyle(color: Colors.white),
+                        SizedBox(
+                          height: 20,
                         ),
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.start,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {});
-                        },
-                        child: Text(
-                          "Generate QR Code",
-                          style: TextStyle(color: Colors.black87),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0xFF5CA6B0)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              converQrCodeToImage();
+                            });
+                          },
+                          child: Text(
+                            "Save QR Code Image",
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(0xFF5CA6B0)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _saveQrCode();
-                          });
-                        },
-                        child: Text(
-                          "Save QR Code Image",
-                          style: TextStyle(color: Colors.black87),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0xFF5CA6B0)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ),
         ),
       ),

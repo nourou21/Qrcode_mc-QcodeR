@@ -47,7 +47,8 @@ dependencies:
   screenshot: ^2.1.0
   path_provider: ^2.1.1
   qr_image: ^1.0.0
-  
+  flutter_barcode_scanner: ^2.0.0
+  share: ^2.0.4
 
 dev_dependencies:
   flutter_test:

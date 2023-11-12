@@ -48,6 +48,26 @@ class _ScanState extends State<Scan> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _initCamera();
+  }
+
+  Future<void> _initCamera() async {
+    var cameraStatus = await Permission.camera.status;
+    if (cameraStatus.isGranted) {
+      _qrscanner();
+    } else {
+      var isGranted = await Permission.camera.request();
+      if (isGranted.isGranted) {
+        _qrscanner();
+      } else {
+        // Handle the case when camera permission is denied
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
