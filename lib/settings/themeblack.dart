@@ -10,7 +10,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool _switchValue = false;
 
   @override
   Widget build(BuildContext context) {

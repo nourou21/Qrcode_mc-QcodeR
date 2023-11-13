@@ -15,8 +15,6 @@ class second extends StatefulWidget {
 }
 
 class _secondState extends State<second> {
-  bool _switchValue = false;
-
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;

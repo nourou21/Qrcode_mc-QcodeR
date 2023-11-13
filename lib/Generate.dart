@@ -1,15 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:QcodeR/settings/ThemeProvider.dart';
-import 'package:provider/provider.dart';
-import 'package:share/share.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'dart:ui' as ui;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:share/share.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class Generate extends StatefulWidget {
   const Generate({Key? key}) : super(key: key);
@@ -20,22 +18,18 @@ class Generate extends StatefulWidget {
 
 class _GenerateState extends State<Generate> {
   TextEditingController controller = TextEditingController();
-  late GlobalKey globalKey;
   late ScreenshotController screenshotController;
 
   @override
   void initState() {
     super.initState();
-    globalKey = GlobalKey();
     screenshotController = ScreenshotController();
   }
 
   Future<void> _saveQrCode() async {
     final status = await Permission.storage.request();
     if (status == PermissionStatus.granted) {
-      Uint8List? bytes = await screenshotController.capture(
-        pixelRatio: 3.0,
-      );
+      Uint8List? bytes = await screenshotController.capture();
 
       if (bytes != null) {
         final directory = (await getExternalStorageDirectory())!.path;
@@ -57,22 +51,23 @@ class _GenerateState extends State<Generate> {
   }
 
   Future<void> converQrCodeToImage() async {
-    RenderRepaintBoundary boundary =
-        globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    ui.Image image = await boundary.toImage();
-    final directory = (await getApplicationDocumentsDirectory()).path;
-    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    Uint8List pngBytes = byteData!.buffer.asUint8List();
-    File imgFile = File("$directory/qrCode.png");
-    await imgFile.writeAsBytes(pngBytes);
-    await Share.shareFiles([imgFile.path], text: "Your text share");
+    try {
+      Uint8List? bytes = await screenshotController.capture();
+      final directory = (await getExternalStorageDirectory())!.path;
+      File imgFile = File("$directory/qrCode.png");
+      await imgFile.writeAsBytes(bytes as List<int>);
+      await Share.shareFiles([imgFile.path], text: "Your text share");
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error: $e'),
+      ));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
-      backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
@@ -132,7 +127,7 @@ class _GenerateState extends State<Generate> {
                   height: 500,
                   child: Container(
                     padding: EdgeInsets.all(20),
-                    color: const Color(0xFF1C1C1C),
+                    color: isDarkMode ? Colors.grey.shade900 : Colors.white,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -140,23 +135,26 @@ class _GenerateState extends State<Generate> {
                           height: 20,
                         ),
                         Center(
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 12,
-                                left: 10,
-                                child: QrImageView(
-                                  data: controller.text,
-                                  version: QrVersions.auto,
-                                  size: 180,
-                                  backgroundColor: Colors.white,
+                          child: Screenshot(
+                            controller: screenshotController,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  top: 12,
+                                  left: 10,
+                                  child: QrImageView(
+                                    data: controller.text,
+                                    version: QrVersions.auto,
+                                    size: 180,
+                                    backgroundColor: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              Image.asset(
-                                'assets/Generate.png',
-                                height: 200,
-                              ),
-                            ],
+                                Image.asset(
+                                  'assets/Generate.png',
+                                  height: 200,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(
