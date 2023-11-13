@@ -165,9 +165,13 @@ class _GenerateState extends State<Generate> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Enter data',
-                            hintStyle: TextStyle(color: Colors.white),
+                            hintStyle: TextStyle(
+                              color: isDarkMode ? Colors.white : Colors.black,
+                            ),
                           ),
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
                           textAlign: TextAlign.start,
                         ),
                         SizedBox(
