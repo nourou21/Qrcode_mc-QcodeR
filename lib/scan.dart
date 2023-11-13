@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'settings/ThemeProvider.dart';
 
@@ -21,18 +22,33 @@ class _ScanState extends State<Scan> {
     var cameraStatus = await Permission.camera.status;
     if (cameraStatus.isGranted) {
       String? scannedData = await scanner.scan();
-      setState(() {
-        qrData = scannedData; // Set the scanned data to the qrData variable
-      });
+      _handleScannedData(scannedData);
     } else {
       var isGranted = await Permission.camera.request();
 
       if (isGranted.isGranted) {
         String? scannedData = await scanner.scan();
-        setState(() {
-          qrData = scannedData; // Set the scanned data to the qrData variable
-        });
+        _handleScannedData(scannedData);
       }
+    }
+  }
+
+  void _handleScannedData(String? scannedData) {
+    setState(() {
+      qrData = scannedData; // Set the scanned data to the qrData variable
+    });
+
+    // Check if the scanned data is a valid URL
+    if (Uri.parse(scannedData!).isAbsolute) {
+      _launchURL(scannedData);
+    }
+  }
+
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print('Could not launch $url');
     }
   }
 
